@@ -7,6 +7,8 @@
 
 #include <boost/algorithm/string/trim.hpp>
 
+extern char _binary_stylesheet_css_start;
+
 int main(int argc, char** argv) {
     QApplication* qapp = new QApplication(argc, argv);
     QWidget* qwin = new QWidget;
@@ -76,14 +78,7 @@ int main(int argc, char** argv) {
 
     QRect scr = qapp->desktop()->screenGeometry();
 
-    qwin->setStyleSheet(
-    "border-radius: 15px;"
-    "margin-left: 0px;;"
-    "margin-right: 0px;"
-    "background-color: rgba(51, 51, 51, 175);"
-    "color: #cfcfcf;"
-    "text-align: center;"
-    );
+    qwin->setStyleSheet(&_binary_stylesheet_css_start);
 
     qwin->setGeometry(
         /* X position */ (scr.width() / 2) - 75,

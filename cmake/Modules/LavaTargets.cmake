@@ -66,7 +66,7 @@ function(lava_create_gutlib)
 endfunction(lava_create_gutlib)
 
 function(lava_create_executable)
-        set(multiValueArgs SUBDIRS LIBRARIES DEPENDS)
+        set(multiValueArgs FILES SUBDIRS LIBRARIES DEPENDS)
         set(oneValueArgs TARGET)
         cmake_parse_arguments(lava_create_executable "" "${oneValueArgs}"
                 "${multiValueArgs}" ${ARGN})
@@ -74,6 +74,10 @@ function(lava_create_executable)
         set(target ${lava_create_executable_TARGET})
 
         set(targetsources)
+
+        foreach(file ${lava_create_executable_FILES})
+                set(targetsources ${targetsources} ${file})
+        endforeach(file)
         foreach(subdir ${lava_create_executable_SUBDIRS})
                 cog_sources("src/${subdir}/*.cpp" subdirsources)
 
