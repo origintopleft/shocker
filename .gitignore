@@ -1,0 +1,5 @@
+*.swp
+build/*
+
+# editor specific configs
+.ycm_extra_conf.py
