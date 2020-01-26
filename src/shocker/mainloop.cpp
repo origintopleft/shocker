@@ -8,6 +8,8 @@
 #include <boost/algorithm/string/trim.hpp>
 
 extern char _binary_stylesheet_css_start;
+extern char _binary_stylesheet_css_end;
+size_t stylesheet_size = (size_t)&_binary_stylesheet_css_end - (size_t)&_binary_stylesheet_css_start;
 
 int main(int argc, char** argv) {
     QApplication* qapp = new QApplication(argc, argv);
@@ -78,7 +80,11 @@ int main(int argc, char** argv) {
 
     QRect scr = qapp->desktop()->screenGeometry();
 
-    qwin->setStyleSheet(&_binary_stylesheet_css_start);
+    char stylesheet[stylesheet_size];
+    strncpy(stylesheet, &_binary_stylesheet_css_start, (stylesheet_size - 1));
+    stylesheet[stylesheet_size - 1] = 0;
+
+    qapp->setStyleSheet(stylesheet);
 
     qwin->setGeometry(
         /* X position */ (scr.width() / 2) - 75,
