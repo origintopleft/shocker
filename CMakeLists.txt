@@ -53,17 +53,16 @@ set(src "${CMAKE_SOURCE_DIR}/src")
 #        LIBRARIES ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES}
 #        DEPENDS cog)
 
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/stylesheet.o" PRE_BUILD
-        COMMAND objcopy -I binary -O elf64-x86-64 --binary-architecture i386:x86-64 "stylesheet.css" "${CMAKE_CURRENT_BINARY_DIR}/stylesheet.o"
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/shocker.dir/src/shocker/stylesheet.o" PRE_LINK
+        COMMAND objcopy -I binary -O elf64-x86-64 --binary-architecture i386:x86-64 "stylesheet.css" "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/shocker.dir/src/shocker/stylesheet.o"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/src/shocker"
+        DEPENDS "${CMAKE_SOURCE_DIR}/src/shocker/stylesheet.css"
         COMMENT "Preparing stylesheet")
 
-# HACK: passing --allow-multiple-definition to the linker because for some reason
-#       it seems to think that the stylesheet is defined multiple times (it isn't)
 lava_create_executable(TARGET shocker
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/stylesheet.o"
+        FILES "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/shocker.dir/src/shocker/stylesheet.o"
         SUBDIRS shocker
-        LIBRARIES Qt5::Widgets -Wl,--allow-multiple-definition "${CMAKE_CURRENT_BINARY_DIR}/stylesheet.o"
+        LIBRARIES Qt5::Widgets 
         DEPENDS cog)
 
 install(TARGETS shocker 
