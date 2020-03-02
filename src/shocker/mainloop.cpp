@@ -2,10 +2,12 @@
 #include <string>
 #include <sstream>
 
+#include <boost/algorithm/string/trim.hpp>
+
 #include <QtWidgets>
 #include <QFont>
 
-#include <boost/algorithm/string/trim.hpp>
+#include "shocker.hpp"
 
 extern char _binary_stylesheet_css_start;
 extern char _binary_stylesheet_css_end;
@@ -26,37 +28,14 @@ int main(int argc, char** argv) {
     wingrid.setColumnMinimumWidth(1, 125);
     wingrid.setColumnStretch(1, 1);
 
-    // TODO: not hard code this
-    std::ifstream battfile("/sys/class/power_supply/sony_controller_battery_f4:93:9f:99:10:90/capacity");
-    std::stringstream battstream;
-    battstream << battfile.rdbuf();
-    battfile.close();
-
     QIcon::setThemeName("breeze-dark");
 
-    std::string batt = battstream.str();
-    boost::algorithm::trim(batt);
-    int battint = std::stoi(batt);
-
-    std::string str_batticon = "battery-";
-    if (battint == 100) { str_batticon += "100"; }
-    else {
-        str_batticon += "0";
-        str_batticon += batt.at(0); // percentage rounded down
-        str_batticon += "0";
-    }
-
-    std::ifstream chargefile("/sys/class/power_supply/sony_controller_battery_f4:93:9f:99:10:90/status");
-    std::stringstream chargestream;
-    chargestream << chargefile.rdbuf();
-    chargefile.close();
-
-    std::string charge = chargestream.str();
-    boost::algorithm::trim(charge);
-    if (charge == "Charging") { str_batticon += "-charging"; }
-
+    int battint = shocker::battery::get_level();
+    std::string batt = std::to_string(battint);
     // for the label
     batt += "%";
+
+    std::string str_batticon = shocker::battery::get_icon();
 
     QIcon batticon = QIcon::fromTheme(str_batticon.c_str());
     QLabel* batticonlabel = new QLabel;
