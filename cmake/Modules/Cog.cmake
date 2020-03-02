@@ -1,4 +1,4 @@
-find_package(PythonInterp)
+find_package(Python3 COMPONENTS Interpreter)
 find_package(PythonModule)
 find_python_module(cogapp REQUIRED)
 
