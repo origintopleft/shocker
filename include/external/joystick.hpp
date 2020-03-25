@@ -105,6 +105,7 @@ private:
   int _fd;
   
 public:
+  std::string device_path;
   ~Joystick();
 
   /**
