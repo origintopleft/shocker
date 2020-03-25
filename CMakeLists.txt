@@ -59,10 +59,13 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/shocker.dir/sr
         DEPENDS "${CMAKE_SOURCE_DIR}/src/shocker/stylesheet.css"
         COMMENT "Preparing stylesheet")
 
+lava_create_gutlib(
+        SUBDIRS external)
+
 lava_create_executable(TARGET shocker
         FILES "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/shocker.dir/src/shocker/stylesheet.o"
         SUBDIRS shocker
-        LIBRARIES Qt5::Widgets 
+        LIBRARIES Qt5::Widgets gutlib
         DEPENDS cog)
 
 install(TARGETS shocker 
